@@ -1,4 +1,4 @@
-# ShopeeURL - Memendekkan URL Shopee
+# ShopeeURL - Memendekkan URL Shopee Website
 
 ## Deskripsi
 
