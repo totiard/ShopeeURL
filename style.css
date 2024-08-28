@@ -209,44 +209,41 @@ body.dark .about {
 }
 
 .checkbox-label {
-    background-color: #111;
-    width: 50px;
-    height: 26px;
-    border-radius: 50px;
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
+    width: 50px;
+    height: 26px;
+    background-color: #ccc;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 5px;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.fa-moon {color: #f1c40f;}
-.fa-sun {color: #f39c12;}
+body.dark .checkbox-label {
+    background-color: #333;
+}
+
+.checkbox-label i {
+    color: white;
+    font-size: 18px;
+}
 
 .checkbox-label .ball {
+    width: 20px;
+    height: 20px;
     background-color: #fff;
-    width: 22px;
-    height: 22px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
     border-radius: 50%;
-    transition: transform 0.3s linear;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.2s ease-in-out;
 }
 
 .checkbox:checked + .checkbox-label .ball {
     transform: translateX(24px);
-}
-
-.product-name {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #333;
-}
-
-body.dark .product-name {
-    color: #fff;
 }
