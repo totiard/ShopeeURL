@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShopeeURL</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/open-props/easings.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <input type="checkbox" class="checkbox" id="checkbox">
@@ -23,14 +23,34 @@
         <div class="short-url-container">
             <div id="shortUrl"></div>
             <button class="copy-btn" id="copyBtn" onclick="copyUrl()" disabled>Salin URL</button>
-            <button class="copy-btn" id="copyBtnWithName" onclick="copyUrlAndName()" disabled>Salin URL & Nama Produk</button>
+            <button class="copy-btn" id="copyBtnWithName" onclick="copyUrlAndName()" disabled>Salin URL dan Nama Produk</button>
         </div>
-        <div id="productName" class="product-name"></div>
     </div>
 
-    <div class="footer">
-        <p>By Toti Ardiansyah</p>
+    <div class="about">
+        <h2>ShopeeURL - Memendekkan URL Shopee Website atau Desktop</h2>
+        <p><strong>Deskripsi:</strong></p>
+        <p>Proyek ini dibuat untuk membantu pengguna yang ingin membagikan produk dari Shopee melalui versi website/desktop, di mana tidak terdapat tombol share seperti pada aplikasi mobile. Karena tidak ada opsi share di versi web/desktop, URL produk bisa menjadi sangat panjang dan sulit untuk dibagikan.</p>
+        <p><b>Contoh:</b> <i>https://shopee.co.id/Apple-iPhone-13-128GB-Blue-i.255563049.8396212403?sp_atk=d90929d4-5d73-4eee-9037-3ff28ba26a98&xptdk=d90929d4-5d73-4eee-9037-3ff28ba26a98</i></p>
+        <p>Aplikasi ini memungkinkan Anda untuk memendekkan URL produk Shopee menjadi link yang lebih pendek dan lebih mudah dibagikan. Selain itu, aplikasi ini juga menampilkan nama produk dengan format yang bersih dan mudah dibaca.</p>
+        <p><strong>Fitur:</strong></p>
+        <ul>
+            <li>Memendekkan URL Shopee panjang menjadi URL pendek menggunakan API TinyURL.</li>
+            <li>Menampilkan nama produk dengan format yang lebih mudah dibaca.</li>
+            <li>Menyediakan tombol untuk menyalin URL pendek ke clipboard.</li>
+            <li>Menyediakan tombol untuk menyalin URL pendek serta nama produk ke clipboard.</li>
+            <li>Mendukung mode terang dan gelap untuk kenyamanan visual.</li>
+        </ul>
+        <!-- Gambar bukti tampilan mobile dan web -->
+        <div>
+            <img src="apk.png" alt="Tampilan Mobile" class="small">
+            <img src="desktop.png" alt="Tampilan Web">
+        </div>
     </div>
+
+    <footer class="footer">
+        <p>By Toti Ardiansyah</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
