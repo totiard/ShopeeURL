@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memendekkan URL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/open-props/easings.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <input type="checkbox" class="checkbox" id="checkbox">
+    <label for="checkbox" class="checkbox-label">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+        <span class="ball"></span>
+    </label>
+
+    <div class="container">
+        <h1 id="pageTitle">Memendekkan URL Shopee Web</h1>
+        <input type="text" id="urlInput" placeholder="Masukkan URL Shopee di sini">
+        <button onclick="shortenUrl()">Generate URL</button>
+        <div class="short-url-container">
+            <div id="shortUrl"></div>
+            <button class="copy-btn" id="copyBtn" onclick="copyUrl()" disabled>Salin URL</button>
+            <button class="copy-btn" id="copyBtnWithName" onclick="copyUrlAndName()" disabled>Salin URL & Nama Produk</button>
+        </div>
+        <div id="productName" class="product-name"></div>
+    </div>
+
+    <div class="footer">
+        <p>By Toti Ardiansyah</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
