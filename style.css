@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
-* {
-    box-sizing: border-box;
-}
+* {box-sizing: border-box;}
 
 body {
     font-family: "Montserrat", sans-serif;
@@ -158,17 +156,17 @@ body.dark .copy-btn:disabled {
 }
 
 .footer {
-    color: #777; /* Warna teks footer */
+    color: #777;
     text-align: center;
     padding: 10px;
     position: relative;
-    margin-top: auto; /* Ini memastikan footer berada di bawah konten utama */
+    margin-top: auto;
     transition: color 0.3s;
-    background: none; /* Menghapus background */
+    background: none;
 }
 
 body.dark .footer {
-    color: #f1f1f1; /* Warna teks footer dalam mode gelap */
+    color: #f1f1f1;
     text-shadow: 0 0 5px #00e676, 0 0 10px #00e676;
 }
 
@@ -200,9 +198,9 @@ body.dark .about {
 }
 
 .about img.small {
-    max-width: 300px; /* Atur ukuran maksimal sesuai kebutuhan */
-    height: auto; /* Pertahankan proporsi gambar */
-    margin-bottom: 10px; /* Jarak di bawah gambar */
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 .checkbox {
@@ -225,13 +223,8 @@ body.dark .about {
     align-items: center;
 }
 
-.fa-moon {
-    color: #f1c40f;
-}
-
-.fa-sun {
-    color: #f39c12;
-}
+.fa-moon {color: #f1c40f;}
+.fa-sun {color: #f39c12;}
 
 .checkbox-label .ball {
     background-color: #fff;
