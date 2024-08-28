@@ -1,98 +1,77 @@
-const checkbox = document.getElementById("checkbox");
-        checkbox.addEventListener("change", () => {
-            document.body.classList.toggle("dark");
-        });
+document.addEventListener("DOMContentLoaded", () => {
+    const checkbox = document.getElementById("checkbox");
+    const body = document.body;
 
-        function shortenUrl() {
-            const urlInput = document.getElementById('urlInput').value;
-            if (!isValidShopeeUrl(urlInput)) {
-                alert('Harap masukkan URL Shopee yang valid.');
-                return;
-            }
+    // Load theme from local storage if available
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark");
+        checkbox.checked = true;
+    }
 
-            const path = getPathFromShopeeUrl(urlInput);
-            const productName = formatProductName(path);
-            if (!path || !productName) {
-                alert('Tidak dapat mengambil nama produk dari URL Shopee.');
-                return;
-            }
-
-            // Menggunakan API TinyURL untuk memendekkan URL
-            fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
-                .then(response => response.text())
-                .then(shortUrl => {
-                    const shortUrlElement = document.getElementById('shortUrl');
-                    shortUrlElement.innerHTML = `
-                        <a href="${shortUrl}" target="_blank">${shortUrl}</a><br><br>
-                        Nama Produk: <strong>${productName}</strong>
-                    `;
-                    
-                    // Enable the copy buttons
-                    const copyBtn = document.getElementById('copyBtn');
-                    const copyBtnWithName = document.getElementById('copyBtnWithName');
-                    copyBtn.disabled = false;
-                    copyBtnWithName.disabled = false;
-                    copyBtn.setAttribute('data-url', shortUrl);
-                    copyBtnWithName.setAttribute('data-url', shortUrl);
-                    copyBtnWithName.setAttribute('data-product-name', productName);
-                })
-                .catch(error => {
-                    console.error('Terjadi kesalahan:', error);
-                    document.getElementById('shortUrl').innerText = 'Gagal memendekkan URL.';
-                    document.getElementById('copyBtn').disabled = true;
-                    document.getElementById('copyBtnWithName').disabled = true;
-                });
+    checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+            body.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            body.classList.remove("dark");
+            localStorage.setItem("theme", "light");
         }
+    });
+});
 
-        function isValidShopeeUrl(url) {
-            const shopeeDomainPattern = /^(https?:\/\/)?(www\.)?shopee\.co\.id\/.+/i;
-            return shopeeDomainPattern.test(url);
-        }
+function shortenUrl() {
+    const inputElement = document.getElementById("urlInput");
+    let longUrl = inputElement.value;
 
-        function getPathFromShopeeUrl(url) {
-            try {
-                const urlObj = new URL(url);
-                if (urlObj.hostname.includes('shopee.co.id')) {
-                    return urlObj.pathname.split('/')[1] || ''; // Ambil bagian path pertama
+    // Verifikasi apakah URL mengandung substring "i." dan "?"
+    if (longUrl.includes("i.") && longUrl.includes("?")) {
+        const extractedUrl = longUrl.substring(0, longUrl.indexOf("?"));
+        const productName = extractedUrl.split("-").slice(1, -1).join(" ").replace(/-/g, " ");
+        const shortUrlContainer = document.getElementById("shortUrl");
+
+        fetch(`https://api.tinyurl.com/create?api_token=YOUR_API_TOKEN`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: extractedUrl,
+                domain: "tinyurl.com",
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.data && data.data.tiny_url) {
+                    const shortUrl = data.data.tiny_url;
+                    shortUrlContainer.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a><br>${productName}`;
+                    document.getElementById("copyBtn").disabled = false;
+                    document.getElementById("copyBtnWithName").disabled = false;
+                } else {
+                    shortUrlContainer.innerHTML = "Terjadi kesalahan dalam memperpendek URL.";
                 }
-            } catch (e) {
-                console.error('URL tidak valid:', e);
-            }
-            return null;
-        }
+            })
+            .catch((error) => {
+                shortUrlContainer.innerHTML = "Terjadi kesalahan dalam memperpendek URL.";
+            });
+    } else {
+        alert("URL tidak valid. Harap masukkan URL yang benar.");
+    }
+}
 
-        function formatProductName(path) {
-            // Menghapus ID produk dan karakter khusus dari path
-            if (!path) return '';
+function copyUrl() {
+    const shortUrlContainer = document.getElementById("shortUrl");
+    const urlText = shortUrlContainer.querySelector("a").textContent;
+    navigator.clipboard.writeText(urlText).then(() => {
+        alert("URL berhasil disalin.");
+    });
+}
 
-            const namePart = path.split('-').slice(0, -1).join(' '); // Ambil semua bagian kecuali ID
-            return namePart.replace(/-/g, ' ').replace(/\b(\w)/g, char => char.toUpperCase()); // Ubah karakter pemisah menjadi spasi dan kapitalisasi kata
-        }
-
-        function copyUrl() {
-            const copyBtn = document.getElementById('copyBtn');
-            const shortUrl = copyBtn.getAttribute('data-url');
-
-            if (shortUrl) {
-                navigator.clipboard.writeText(shortUrl).then(() => {
-                    alert('URL telah disalin ke clipboard!');
-                }).catch(err => {
-                    console.error('Gagal menyalin URL:', err);
-                });
-            }
-        }
-
-        function copyUrlAndName() {
-            const copyBtnWithName = document.getElementById('copyBtnWithName');
-            const shortUrl = copyBtnWithName.getAttribute('data-url');
-            const productName = copyBtnWithName.getAttribute('data-product-name');
-
-            if (shortUrl && productName) {
-                const textToCopy = `URL: ${shortUrl}\nNama Produk: ${productName}`;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    alert('URL dan nama produk telah disalin ke clipboard!');
-                }).catch(err => {
-                    console.error('Gagal menyalin URL dan nama produk:', err);
-                });
-            }
-        }
+function copyUrlAndName() {
+    const shortUrlContainer = document.getElementById("shortUrl");
+    const urlText = shortUrlContainer.querySelector("a").textContent;
+    const productName = shortUrlContainer.innerText.split("\n")[1];
+    const combinedText = `${urlText} - ${productName}`;
+    navigator.clipboard.writeText(combinedText).then(() => {
+        alert("URL dan Nama Produk berhasil disalin.");
+    });
+}
