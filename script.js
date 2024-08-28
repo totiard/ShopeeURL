@@ -18,7 +18,7 @@ function shortenUrl() {
     }
 
     // Menggunakan API TinyURL untuk memendekkan URL
-    fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
+    fetch(`http://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
         .then(response => response.text())
         .then(shortUrl => {
             const shortUrlElement = document.getElementById('shortUrl');
@@ -65,7 +65,7 @@ function formatProductName(path) {
     // Menghapus ID produk dan karakter khusus dari path
     if (!path) return '';
 
-    const namePart = path.split('-').slice(0, -2).join(' '); // Ambil semua bagian kecuali ID
+    const namePart = path.split('-').slice(0, -1).join(' '); // Ambil semua bagian kecuali ID
     return namePart.replace(/-/g, ' ').replace(/\b(\w)/g, char => char.toUpperCase()); // Ubah karakter pemisah menjadi spasi dan kapitalisasi kata
 }
 
