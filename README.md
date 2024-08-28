@@ -2,9 +2,9 @@
 
 ## Deskripsi
 
-Proyek ini dibuat untuk membantu pengguna yang ingin membagikan produk dari Shopee melalui website, di mana tidak terdapat tombol share seperti pada aplikasi mobile. Karena tidak ada opsi share di versi web, URL produk bisa menjadi sangat panjang dan sulit untuk dibagikan. 
+Proyek ini dibuat untuk membantu pengguna yang ingin membagikan produk dari Shopee melalui versi website/desktop, di mana tidak terdapat tombol share seperti pada aplikasi mobile. Karena tidak ada opsi share di versi web/desktop, URL produk bisa menjadi sangat panjang dan sulit untuk dibagikan. 
 
-Aplikasi ini memungkinkan Anda untuk memendekkan URL produk Shopee menjadi link yang lebih pendek dan lebih mudah dibagikan. Selain itu, aplikasi ini juga menampilkan nama produk dengan format yang bersih dan mudah dibaca.
+Aplikasi ini memungkinkan Anda untuk memendekkan URL produk Shopee versi web/desktop menjadi link yang lebih pendek dan lebih mudah dibagikan. Selain itu, aplikasi ini juga menampilkan nama produk dengan format yang bersih dan mudah dibaca.
 
 ## Fitur
 
