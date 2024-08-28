@@ -1,26 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
-* {box-sizing: border-box;}
+* {
+    box-sizing: border-box;
+}
 
 body {
     font-family: "Montserrat", sans-serif;
     background-color: whitesmoke;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    text-align: center;
     min-height: 100vh;
     margin: 0;
-    transition: background 0.2s linear;
+    transition: background 0.3s linear;
 }
 
 body.dark {
     background-color: #292c35;
-}
-
-body.dark h1, body.dark #shortUrl a {
-    color: #fff;
 }
 
 .container {
@@ -31,8 +26,8 @@ body.dark h1, body.dark #shortUrl a {
     width: 100%;
     max-width: 600px;
     text-align: center;
+    margin: 20px auto;
     transition: background-color 0.3s, box-shadow 0.3s;
-    position: relative; /* Tambahkan posisi relatif */
 }
 
 body.dark .container {
@@ -43,7 +38,7 @@ body.dark .container {
 
 h1 {
     color: #333;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 body.dark h1 {
@@ -163,18 +158,51 @@ body.dark .copy-btn:disabled {
 }
 
 .footer {
-    position: fixed;
-    bottom: 10px;
-    font-size: 14px;
-    color: #777;
-    transition: color 0.3s;
+    color: #777; /* Warna teks footer */
     text-align: center;
-    width: 100%;
+    padding: 10px;
+    position: relative;
+    margin-top: auto; /* Ini memastikan footer berada di bawah konten utama */
+    transition: color 0.3s;
+    background: none; /* Menghapus background */
 }
 
 body.dark .footer {
-    color: #f1f1f1;
+    color: #f1f1f1; /* Warna teks footer dalam mode gelap */
     text-shadow: 0 0 5px #00e676, 0 0 10px #00e676;
+}
+
+.about {
+    max-width: 600px;
+    text-align: left;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .about {
+    background-color: #333;
+    color: #f1f1f1;
+    border-color: #444;
+}
+
+.about h2 {
+    margin-top: 0;
+}
+
+.about img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.about img.small {
+    max-width: 300px; /* Atur ukuran maksimal sesuai kebutuhan */
+    height: auto; /* Pertahankan proporsi gambar */
+    margin-bottom: 10px; /* Jarak di bawah gambar */
 }
 
 .checkbox {
@@ -197,8 +225,12 @@ body.dark .footer {
     align-items: center;
 }
 
-.fa-moon {color: #f1c40f;}
-.fa-sun {color: #f39c12;}
+.fa-moon {
+    color: #f1c40f;
+}
+.fa-sun {
+    color: #f39c12;
+}
 
 .checkbox-label .ball {
     background-color: #fff;
@@ -208,7 +240,7 @@ body.dark .footer {
     left: 2px;
     top: 2px;
     border-radius: 50%;
-    transition: transform 0.2s linear;
+    transition: transform 0.3s linear;
 }
 
 .checkbox:checked + .checkbox-label .ball {
