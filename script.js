@@ -18,7 +18,7 @@ function shortenUrl() {
     }
 
     // Menggunakan API TinyURL untuk memendekkan URL
-    fetch(`http://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
+    fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(urlInput)}`)
         .then(response => response.text())
         .then(shortUrl => {
             const shortUrlElement = document.getElementById('shortUrl');
