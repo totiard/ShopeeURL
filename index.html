@@ -1,58 +1,155 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopeeURL</title>
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" href="https://unpkg.com/open-props/easings.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>ShopeeURL - URL Shortener</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" src="style.css">
+
+    <script>
+        // Tailwind CSS dark mode configuration
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
 </head>
-<body>
-    <input type="checkbox" class="checkbox" id="checkbox">
-    <label for="checkbox" class="checkbox-label">
-        <i class="fas fa-moon"></i>
-        <i class="fas fa-sun"></i>
-        <span class="ball"></span>
-    </label>
+<body class="bg-gray-100 dark:bg-gray-900 theme-transition">
 
-    <div class="container">
-        <h1 id="pageTitle">Memendekkan URL Shopee Web</h1>
-        <input type="text" onfocus="this.value=''" id="urlInput" placeholder="Masukkan URL Shopee di sini">
-        <button onclick="shortenUrl()">Generate URL</button>
-        <div class="short-url-container">
-            <div id="shortUrl"></div>
-            <button class="copy-btn" id="copyBtn" onclick="copyUrl()" disabled>Salin URL</button>
-            <button class="copy-btn" id="copyBtnWithName" onclick="copyUrlAndName()" disabled>Salin URL dan Nama Produk</button>
-        </div>
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" type="button" class="fixed top-4 right-4 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 z-20">
+        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.121-3.536a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zm1.414 10.606l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM16 10a1 1 0 01-1-1H3a1 1 0 110-2h12a1 1 0 011 1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    </button>
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-4">
+        
+        <!-- Main Content -->
+        <main class="w-full max-w-4xl">
+            <!-- Main Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-6 md:p-10 theme-transition">
+                <div class="text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                        ShopeeURL
+                    </h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-2">Ubah URL produk Shopee yang panjang menjadi pendek.</p>
+                </div>
+
+                <!-- Input Form -->
+                <div class="mt-8">
+                    <div class="relative">
+                        <input type="text" id="urlInput" placeholder="Tempel URL Shopee di sini..." class="w-full p-4 pr-32 text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-200 border-2 border-transparent focus:border-orange-500 focus:ring-0 rounded-xl theme-transition">
+                        <button id="generateBtn" onclick="shortenUrl()" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-5 rounded-lg transition-transform duration-200 active:scale-95 flex items-center justify-center h-[75%]">
+                            <span id="btn-text">Generate</span>
+                            <svg id="loader" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Display -->
+                <div id="result-container" class="mt-6 hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700/50 p-5 rounded-xl border border-gray-200 dark:border-gray-700">
+                        <div class="flex flex-col md:flex-row md:justify-between">
+                             <div class="flex-grow mb-4 md:mb-0 md:mr-4">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Nama Produk:</p>
+                                <p id="productName" class="font-semibold text-gray-800 dark:text-white break-words"></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">URL Pendek:</p>
+                                <a id="shortUrlLink" href="#" target="_blank" class="font-semibold text-orange-500 hover:text-orange-600 break-all"></a>
+                            </div>
+                            <!-- Updated Button Container -->
+                            <div class="flex flex-col space-y-2 flex-shrink-0">
+                                <button id="copyBtn" onclick="copyToClipboard(this.dataset.url, 'URL disalin!')" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-transform duration-200 active:scale-95 flex items-center justify-center text-sm">
+                                    <i class="fas fa-link mr-2"></i> Salin URL
+                                </button>
+                                <button id="copyBtnWithName" onclick="copyToClipboard(this.dataset.text, 'URL & Nama disalin!')" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-transform duration-200 active:scale-95 flex items-center justify-center text-sm">
+                                    <i class="fas fa-paste mr-2"></i> Salin Semua
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Error Message -->
+                <div id="error-message" class="mt-4 text-center text-red-500 font-medium hidden"></div>
+            </div>
+
+            <!-- About Section -->
+            <div class="mt-8 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 md:p-8 theme-transition">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white">Tentang ShopeeURL</h2>
+                <div class="mt-4 text-gray-600 dark:text-gray-300 space-y-4">
+                    <p>
+                        Proyek ini dibuat untuk membantu pengguna yang ingin membagikan produk dari Shopee melalui versi website/desktop, di mana tidak terdapat tombol share seperti pada aplikasi mobile. Karena tidak ada opsi share di versi web/desktop, URL produk bisa menjadi sangat panjang dan sulit untuk dibagikan.
+                    </p>
+                     <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">Contoh URL panjang:</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 break-all mt-1"><i>https://shopee.co.id/Apple-iPhone-13-Pro-Max-128GB-256GB-512GB-1TB-Garansi-Resmi-iBox-Not-Inter-i.255563049.8396212403?sp_atk=d90929d4-5d73-4eee-9037-3ff28ba26a98&xptdk=d90929d4-5d73-4eee-9037-3ff28ba26a98</i></p>
+                    </div>
+                    <p>
+                        Aplikasi ini memungkinkan Anda untuk memendekkan URL produk Shopee menjadi link yang lebih pendek dan lebih mudah dibagikan. Selain itu, aplikasi ini juga menampilkan nama produk dengan format yang bersih dan mudah dibaca.
+                    </p>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Fitur:</h3>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Memendekkan URL Shopee panjang menjadi URL pendek menggunakan API TinyURL.</li>
+                            <li>Menampilkan nama produk dengan format yang lebih mudah dibaca.</li>
+                            <li>Menyediakan tombol untuk menyalin URL pendek ke clipboard.</li>
+                            <li>Menyediakan tombol untuk menyalin URL pendek serta nama produk ke clipboard.</li>
+                            <li>Mendukung mode terang dan gelap untuk kenyamanan visual.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Images -->
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Perbandingan Tampilan</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                        <div class="flex-1">
+                            <p class="text-center text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Tampilan Mobile</p>
+                            <img src="apk.png" alt="Tampilan Mobile" class="rounded-lg shadow-md w-full h-auto">
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-center text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Tampilan Web</p>
+                            <img src="desktop.png" alt="Tampilan Web" class="rounded-lg shadow-md w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full max-w-4xl text-center py-8 mx-auto">
+            <p class="text-gray-500 dark:text-gray-400">Dibuat oleh 
+                <a href="https://totiard.github.io/Profile-New" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   id="author-link"
+                   class="font-semibold text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-300">
+                   Toti Ardiansyah
+                </a>
+            </p>
+        </footer>
     </div>
-
-    <div class="about">
-        <h2>ShopeeURL - Memendekkan URL Shopee Website atau Desktop</h2>
-        <p><strong>Deskripsi:</strong></p>
-        <p>Proyek ini dibuat untuk membantu pengguna yang ingin membagikan produk dari Shopee melalui versi website/desktop, di mana tidak terdapat tombol share seperti pada aplikasi mobile. Karena tidak ada opsi share di versi web/desktop, URL produk bisa menjadi sangat panjang dan sulit untuk dibagikan.</p>
-        <p><b>Contoh URL Shopee ketika membagikan melalui website/desktop:</b> <i>https://shopee.co.id/Apple-iPhone-13-128GB-Blue-i.255563049.8396212403?sp_atk=d90929d4-5d73-4eee-9037-3ff28ba26a98&xptdk=d90929d4-5d73-4eee-9037-3ff28ba26a98</i></p>
-        <p>Aplikasi ini memungkinkan Anda untuk memendekkan URL produk Shopee menjadi link yang lebih pendek dan lebih mudah dibagikan. Selain itu, aplikasi ini juga menampilkan nama produk dengan format yang bersih dan mudah dibaca.</p>
-        <p><strong>Fitur:</strong></p>
-        <ul>
-            <li>Memendekkan URL Shopee panjang menjadi URL pendek menggunakan API TinyURL.</li>
-            <li>Menampilkan nama produk dengan format yang lebih mudah dibaca.</li>
-            <li>Menyediakan tombol untuk menyalin URL pendek ke clipboard.</li>
-            <li>Menyediakan tombol untuk menyalin URL pendek serta nama produk ke clipboard.</li>
-            <li>Mendukung mode terang dan gelap untuk kenyamanan visual.</li>
-        </ul>
-        <!-- Gambar bukti tampilan mobile dan web -->
-        <div>
-            <img src="apk.png" alt="Tampilan Mobile" class="small">
-            <img src="desktop.png" alt="Tampilan Web">
-        </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-2 px-5 rounded-lg shadow-lg opacity-0 transform translate-y-10">
+        <p id="toast-message"></p>
     </div>
-
-    <footer class="footer">
-        <p>By Toti Ardiansyah</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
